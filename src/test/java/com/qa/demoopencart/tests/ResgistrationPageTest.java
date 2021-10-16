@@ -14,7 +14,6 @@ import com.qa.demoopencart.utils.Constants;
 import com.qa.demoopencart.utils.ExcelUtil;
 
 public class ResgistrationPageTest extends BaseTest {
-		
 	
 	@BeforeClass
 	public void registrationPageSetup() {

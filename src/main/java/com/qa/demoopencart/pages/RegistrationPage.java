@@ -12,7 +12,7 @@ public class RegistrationPage {
 	// 1.private element Util
 	
 	private ElementUtil elementUtil;
-	private WebDriver driver;
+	
 
 
 	// 2.private By Locators
@@ -33,7 +33,6 @@ public class RegistrationPage {
 	
 	// 3.Constructors
 		public RegistrationPage(WebDriver driver) {
-			this.driver=driver;
 			elementUtil = new ElementUtil(driver);
 			
 		}
