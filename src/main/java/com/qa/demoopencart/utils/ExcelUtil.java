@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-
 public class ExcelUtil {
 	private static Workbook book;
 	private static Sheet sheet;
@@ -35,6 +34,8 @@ public class ExcelUtil {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -44,6 +45,5 @@ public class ExcelUtil {
 		return data;
 
 	}
-
 
 }

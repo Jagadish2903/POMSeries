@@ -31,6 +31,12 @@
 			<class name="com.qa.demoopencart.tests.ProductInfoPageTest" />
 		</classes>
 	</test>
+	
+	 <test name="RegistrationPage Test">
+		<classes>
+			<class name="com.qa.demoopencart.tests.ResgistrationPageTest" />
+		</classes>
+	</test>
 
 
 </suite>
