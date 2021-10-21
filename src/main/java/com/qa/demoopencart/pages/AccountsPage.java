@@ -52,6 +52,7 @@ public class AccountsPage {
 	@Step("Checking search exists")//this @ Step is allure report annotations for report view purpose
 	public boolean issearchExist() {
 		System.out.println("This is issearch exist");
+		System.out.println("This is my recent changes");
 		return elementUtil.doIsDisplayed(search);
 	}
 
