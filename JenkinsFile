@@ -1,60 +1,66 @@
-pipeline{
-    
+pipeline 
+{
     agent any
-    stages {
-        stage("Build"){
-            steps{
-                echo("building the project")
-            }
+    
+    tools{
+    	maven 'maven'
         }
-        stage("Run Utis"){
-            steps{
-                echo("running Unitlevel testcases")
+
+    stages 
+    {
+        stage('Build') 
+        {
+            steps 
+            {
+                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                 Bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-        }
-        
-        stage("Deploy on Dev env"){
-            steps{
-                echo("deploying in dev environment")
-            }
-        }
-        
-        stage("Deploy on QA env"){
-            steps{
-                echo("deploying in QA environment")
-            }
-        }
-        
-         stage("Running Sanity Cases on QA"){
-            steps{
-                echo("running sanity cases on QA")
-            }
-        }
-        
-           stage("Running Regression Cases on QA"){
-            steps{
-                echo("running regression cases on QA")
+            post 
+            {
+                success 
+                {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                }
             }
         }
         
         
-           stage("Deploy in Stage"){
-            steps{
-                echo("deployment in Stage env")
+        stage('Regression Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/Jagadish2903/POMSeries.git'
+                    Bat "mvn clean install"
+                }
+            }
+        }
+                
+     
+        stage('Publish Allure Reports') {
+           steps {
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '/allure-results']]
+                    ])
+                }
             }
         }
         
-           stage("Running Sanity Cases on Stage"){
+        
+        stage('Publish Extent Report'){
             steps{
-                echo("running sanity cases on stage")
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: false, 
+                                  reportDir: 'build', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Extent Report', 
+                                  reportTitles: ''])
             }
         }
-         stage("Deploy in prod"){
-            steps{
-                echo("deployment in prod env")
-            }
-        }
-        
-        
     }
 }
